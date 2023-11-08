@@ -15,7 +15,8 @@ app.get('/api/get', (req, res) => {
 });
 
 app.post('/api/post', (req, res) => {
-  rapMessage(res, StatusCodes.OK, 'Hello, World! (POST)');  
+  const { body } = req;
+  rapMessage(res, StatusCodes.OK, 'Hello, World! (POST)',{ ...body });  
 });
 
 app.put('/api/put', (req, res) => {
