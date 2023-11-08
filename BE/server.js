@@ -6,8 +6,8 @@ const bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 
-const rapMessage = (res, code, message) => {
-  res.status(code).send({ message });
+const rapMessage = (res, code, message, data = {}) => {
+  res.status(code).send({ message, ...data });
 };
 
 app.get('/api/get', (req, res) => {  
