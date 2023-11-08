@@ -1,0 +1,41 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": [
+    "react-app", 
+    "plugin:jsx-a11y/recommended"
+  ],
+  "settings": {
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx"]
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "react/prop-types": "off",
+    "quotes": ["error", "single"],
+    "object-curly-spacing": ["error", "always"],
+    "object-property-newline": ["error", { "allowAllPropertiesOnSameLine": true }],
+    "space-infix-ops": ["error", { "int32Hint": false }],
+    "no-multi-spaces": ["error"],
+    "no-multiple-empty-lines": ["error", { "max": 1 }] 
+  },
+  "ignorePatterns": ["node_modules/", "build/"], // Add patterns to ignore specific files or directories
+  "overrides": [
+    {
+      "files": ["src/**/*.js"], // Specify the source folder and file extension (e.g., .js, .jsx)
+      "excludedFiles": ["src/**/*.test.js"], // Optionally exclude specific files within the source folder
+      "rules": {
+        // Define specific rules for files within the "src" folder
+      }
+    }
+  ]
+}
