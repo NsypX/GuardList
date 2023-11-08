@@ -1,0 +1,9 @@
+[
+  {
+    "shifts": [
+      { "time": "00-08", "shiftPower": 0 },
+      { "time": "08-16", "shiftPower": 0 },
+      { "time": "16-24", "shiftPower": 0 }
+    ]
+  }
+]

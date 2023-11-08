@@ -1,0 +1,108 @@
+@import '~antd/dist/antd.css';
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.default-modal-footer {
+  display: flex;
+  align-items: baseline;
+}
+.default-modal-footer > div:last-child {
+  margin-left: auto;
+}
+
+.react-phone-number-input__icon {
+  border: none !important;
+  height: 1.1em !important;
+  font-size: 20px;
+  line-height: 30px;
+}
+
+.react-phone-number-input__input {
+  border: none !important;
+  line-height: 1;
+}
+
+.ant-notification {
+  z-index: 1060;
+}
+
+.ant-modal .ant-modal-content .ant-modal-body {
+  color: #333;
+}
+.ant-btn-success {
+  color: #fff;
+  background-color: #5dc898;
+  border-color: #5dc898;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}
+.ant-btn-success:hover,
+.ant-btn-success:focus {
+  color: #fff;
+  background-color: #66daa6;
+  border-color: #66daa6;
+}
+.ant-btn-success:active,
+.ant-btn-success.active {
+  color: #fff;
+  background-color: #53b388;
+  border-color: #53b388;
+}
+.ant-btn-success:disabled,
+.ant-btn-success.disabled,
+.ant-btn-success:disabled:hover,
+.ant-btn-success.disabled:hover {
+  color: #fff;
+  background-color: #dbdbdb;
+  border-color: #dbdbdb;
+}
+.ant-btn-primary-clear {
+  color: #2a6ebf;
+  border-color: #2a6ebf;
+}
+.ant-btn-primary-clear:hover,
+.ant-btn-primary-clear:focus {
+  color: #3383e2;
+  border-color: #3383e2;
+}
+.ant-btn-primary-clear:active,
+.ant-btn-primary-clear.active {
+  color: #2e78d0;
+  border-color: #2e78d0;
+}
+.ant-btn-primary-clear:disabled,
+.ant-btn-primary-clear.disabled {
+  color: #888888;
+  border-color: #888888;
+}
+
+.hide-no-data-box .ant-select-item-empty {
+  display: none;
+}
+
+.flex {
+  display: flex;
+}
+
+.ant-popover-message {
+  display: flex;
+  padding: 4px 0 12px;
+  color: #000000d9;
+  font-size: 14px;
+}
+.ant-popover-message .ant-popover-message-icon {
+  display: inline-block;
+  margin-right: 8px;
+  color: #faad14;
+  font-size: 14px;
+}
+.ant-popover-message span.ant-popover-message-icon + div.ant-popover-message-title {
+  padding: 0;
+  margin: 0;
+}
