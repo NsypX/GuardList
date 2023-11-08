@@ -22,7 +22,10 @@ services:
     build:
       context: ./BE
     ports:
-      - "5000:5000"
+      - "3002:3002"
+    environment:
+      - DB_URI=mongodb://mongodb:27018
+      - EXPORT_PORT=3002
     depends_on:
       - mongodb
 
