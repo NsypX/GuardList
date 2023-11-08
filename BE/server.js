@@ -6,16 +6,20 @@ const bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 
+const rapMessage = (res, code, message) => {
+  res.status(code).send({ message });
+};
+
 app.get('/api/get', (req, res) => {  
-  res.status(StatusCodes.OK).send('Hello, World! (GET)');
+  rapMessage(res, StatusCodes.OK, 'Hello, World! (GET)');  
 });
 
 app.post('/api/post', (req, res) => {
-  res.status(StatusCodes.OK).send('Hello, World! (POST)');
+  rapMessage(res, StatusCodes.OK, 'Hello, World! (POST)');  
 });
 
 app.put('/api/put', (req, res) => {
-  res.status(StatusCodes.OK).send('Hello, World! (PUT)');
+  rapMessage(res, StatusCodes.OK, 'Hello, World! (PUT)');  
 });
 
 const PORT = process.env.EXPORT_PORT || 3002;
