@@ -1,0 +1,30 @@
+version: '3'
+services:
+  # MongoDB container
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27018:27017"
+
+  # React app container
+  fe:
+    build:
+      context: ./FE
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+
+  # Express app container
+  be:
+    build:
+      context: ./BE
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+
+volumes:
+  mongo-data:
