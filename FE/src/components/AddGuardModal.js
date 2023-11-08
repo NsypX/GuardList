@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Modal, Input, Button, Table,notification, Divider } from 'antd';
+import { Modal, Input, Button, Table, Divider } from 'antd';
+import { sendSuccessMessage, sendErrorMessage } from './helpers/notifications';
 import { saveAs } from 'file-saver';
 
 const AddGuardModal = ({ onClose }) => {
@@ -10,13 +11,13 @@ const AddGuardModal = ({ onClose }) => {
     const guardsLowerCase = guards.map((guard) => guard.toLowerCase());
 
     if(newGuard === ''){
-      notification['error']({ placement:'bottomLeft', message:'Error- Empty guard name.', description:'Please enter a guard name.', duration: 4.5 });
+      sendErrorMessage('Error- Empty guard name.', 'Please enter a guard name.');      
     }else if (guardsLowerCase.includes(newGuard.toLocaleLowerCase())) {
-      notification['error']({ placement:'bottomLeft', message:'Error- Duplicate guard name.', description:'Guard name already exists.', duration: 4.5 });
+      sendErrorMessage('Error- Duplicate guard name.', 'Guard name already exists.');      
     }else {
       setGuards([...guards, newGuard]);
       setNewGuard('');
-      notification['success']({ placement:'bottomLeft', message:'Success- Added to guard list.', description:'Guard was added to list.', duration: 4.5 });
+      sendSuccessMessage('Success- Guard added to the list.');      
     }
   };
 
@@ -45,27 +46,12 @@ const AddGuardModal = ({ onClose }) => {
             console.log('duplicateHelper',{ duplicateHelper: [...duplicateHelper] });
             setGuards([...duplicateHelper].filter((guard) => guard !== ''));
 
-            notification['success']({
-              placement: 'bottomLeft',
-              message: 'Success- Guards added from file.',
-              description: 'Guards were added to list from the uploaded file.',
-              duration: 4.5,
-            });
+            sendSuccessMessage('Success- Guards added from file.');            
           } else {
-            notification['error']({
-              placement: 'bottomLeft',
-              message: 'Error- Invalid file format.',
-              description: 'Please upload a valid JSON file containing an array of strings.',
-              duration: 4.5,
-            });
+            sendErrorMessage('Error- Invalid file format.', 'Please upload a valid JSON file containing an array of strings.');            
           }
         } catch (error) {
-          notification['error']({
-            placement: 'bottomLeft',
-            message: error.message,
-            description: 'Please upload a valid JSON file.',
-            duration: 4.5,
-          });
+          sendErrorMessage('Error- Invalid file format.', 'Please upload a valid JSON file.');          
         }
       };
 

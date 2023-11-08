@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Modal, Input, Button, Table, notification, Divider } from 'antd';
+import { Modal, Input, Button, Table, Divider } from 'antd';
+import { sendSuccessMessage, sendErrorMessage } from './helpers/notifications';
 import { saveAs } from 'file-saver';
 
 const AddShiftModal = ({ onClose }) => {
@@ -14,44 +15,25 @@ const AddShiftModal = ({ onClose }) => {
       setShifts([...shifts, newShift]);
       setNewShiftHours('');
       setNewShiftPower('');
-      notification['success']({
-        placement: 'bottomLeft',
-        message: 'Success- Shift added to the list.',
-        duration: 4.5,
-      });
+      sendSuccessMessage('Success- Shift added to the list.');      
     }
   };
 
   const validateShiftInput = () => {
     if (newShiftHours === '' || newShiftPower === '') {
-      notification['error']({
-        placement: 'bottomLeft',
-        message: 'Error- Empty fields.',
-        description: 'Please enter shift hours and shift power.',
-        duration: 4.5,
-      });
+      sendErrorMessage('Error- Empty fields.', 'Please enter shift hours and shift power.');
       return false;
     }
     const hours = parseInt(newShiftHours);
     const power = parseInt(newShiftPower);
 
     if (hours < 1 || hours > 24) {
-      notification['error']({
-        placement: 'bottomLeft',
-        message: 'Error- Invalid shift hours.',
-        description: 'Shift hours must be between 1 and 24.',
-        duration: 4.5,
-      });
+      sendErrorMessage('Error- Invalid shift hours.', 'Shift hours must be between 1 and 24.');
       return false;
     }
 
     if (power < 0 || power > 100) {
-      notification['error']({
-        placement: 'bottomLeft',
-        message: 'Error- Invalid shift power.',
-        description: 'Shift power must be between 0 and 100.',
-        duration: 4.5,
-      });
+      sendErrorMessage('Error- Invalid shift power.', 'Shift power must be between 0 and 100.');      
       return false;
     }
 
