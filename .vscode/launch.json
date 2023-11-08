@@ -16,6 +16,16 @@
                 "NODE_ENV": "dev",
                 "PORT": "3002",
             }
-        }
+        },
+        {
+            "command": "cd ./BE && npm run watch",
+            "name": "Watch Gil Server",
+            "request": "launch",        
+            "type": "node-terminal",
+            "env": {
+                "NODE_ENV": "dev",
+                "PORT": "3002",
+            }
+        },                 
     ]
 }
