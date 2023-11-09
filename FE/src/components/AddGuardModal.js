@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Modal, Input, Button, Table, Divider } from 'antd';
+import { Modal, Input, Button } from 'antd';
 import { sendSuccessMessage, sendErrorMessage } from './helpers/notifications';
 import { beServices } from '../api-calls/BeService';
+import GuardTable from './GuardsTable'
 
 const AddGuardModal = ({ onClose }) => {
   const [guards, setGuards] = useState([]);
@@ -40,28 +41,6 @@ const AddGuardModal = ({ onClose }) => {
     onClose();
   }
 
-  const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Phone Number',
-      dataIndex: 'phoneNumber',
-      key: 'phoneNumber',
-    },
-    {
-      title: 'Actions',
-      key: 'actions',
-      render: (text, record, index) => (
-        <Button type="danger" onClick={() => removeGuard(index)}>
-          Remove
-        </Button>
-      ),
-    },
-  ];
-
   return (
     <Modal
       title="Guard List"
@@ -85,14 +64,8 @@ const AddGuardModal = ({ onClose }) => {
         value={newPhoneNumber}
         onChange={(e) => setNewPhoneNumber(e.target.value)}
         placeholder="Enter guard phone number"
-        ></Input>
-      {guards.length ? (
-      <>
-        <Divider />
-        <Table dataSource={guards} columns={columns} />
-      </>
-      ) : (<></>)}
-      
+        ></Input>     
+     <GuardTable removeGuard={removeGuard} guards={guards} />      
     </Modal>
   );
 };
