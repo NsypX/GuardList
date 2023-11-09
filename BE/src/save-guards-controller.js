@@ -6,7 +6,12 @@ const controller = async (event) => {
   const { guards = [] } = event.body;
   const db = await getDbConnection();
 
-  const guardsWithId = guards.map((guard) => ({ _id: new ObjectId().toHexString(), createdAt: new Date(), ...guard }));
+  const dbGuards = await db.collection('guards').aggregate([{ $match:{ isActive:{ $ne:false } } },{ $project:{ name:1, phoneNumber:1, guardScore:1 } },{ $sort:{ guardScore:-1 } }]).toArray();
+
+  const guardsWithId = guards.filter((guard)=> {
+    const guardExists = dbGuards.find((dbGuard) => dbGuard.phoneNumber === guard.phoneNumber);
+    return !guardExists;    
+  }).map((guard) => ({ _id: new ObjectId().toHexString(), createdAt: new Date(), ...guard }));
 
   await db.collection('guards').insertMany(guardsWithId);
 
