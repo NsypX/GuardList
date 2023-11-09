@@ -14,7 +14,10 @@ const GuardTable = ({ removeGuard, guards }) => {
       dataIndex: 'phoneNumber',
       key: 'phoneNumber',
     },
-    {
+  ];
+
+  if(removeGuard){
+    columns.push({
       title: 'Actions',
       key: 'actions',
       render: (text, record, index) => (
@@ -22,9 +25,9 @@ const GuardTable = ({ removeGuard, guards }) => {
           Remove
         </Button>
       ),
-    },
-  ];
-
+    });
+  
+  }
   return (
     <>
         <Divider />
