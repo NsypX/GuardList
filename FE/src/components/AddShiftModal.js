@@ -50,7 +50,7 @@ const AddShiftModal = ({ onClose }) => {
   const saveShiftToDb = async () => {
     try{
       const shiftsToSave = shifts.map(({ shiftHours,shiftPower }) => ({ shiftHours, shiftPower }));
-       await beServices.addGuards(shiftsToSave);
+       await beServices.addShifts(shiftsToSave);
       sendSuccessMessage('Success- Shifts saved in DB.');
     }catch(error){
       sendErrorMessage('Error- Failed to save Shifts in DB.', error.message);

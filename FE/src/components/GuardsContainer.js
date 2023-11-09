@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AddGuardModal from './AddGuardModal';
 import AddShiftModal from './AddShiftModal';
 import GuardTable from './GuardsTable';
+import ShiftsTable from './ShiftsTable';
 import { beServices } from '../api-calls/BeService';
 import { sendErrorMessage } from './helpers/notifications';
 
@@ -13,16 +14,26 @@ const GuardsContainer = () => {
   const [isAddGuardOpen, setIsAddGuardOpen] = useState(false);
   const [isShiftsModal, setIsShiftsModal] = useState(false);
   const [guards, setGuards] = useState([]);
+  const [shifts, setShifts] = useState([]);
 
   useEffect(() => {
-    if(isAddGuardOpen) return;
-    beServices.getGuards().then((response) => {
-      const { guards } = response;      
-      setGuards(guards);
-    })
-    .catch(error => sendErrorMessage('Error- Failed to get guards from DB.', error.message));
+    if(isAddGuardOpen && isShiftsModal) return;
+
+    if(!isAddGuardOpen) {
+      beServices.getGuards().then((response) => {        
+        setGuards(response.guards);
+      })
+      .catch(error => sendErrorMessage('Error- Failed to get guards from DB.', error.message));
+    }
+
+    if(!isShiftsModal) {
+      beServices.getShifts().then((response) => {        
+        setShifts(response.shifts);
+      })
+      .catch(error => sendErrorMessage('Error- Failed to get shifts from DB.', error.message));
+    }
    
-  }, [isAddGuardOpen]);
+  }, [isAddGuardOpen, isShiftsModal]);
 
   const openAddGuardModal = () => {
     setIsAddGuardOpen(true);
@@ -48,6 +59,7 @@ const GuardsContainer = () => {
       <GuardTable guards={guards} />
       <Divider/>
       <Title level={2}>Current Shifts</Title>
+      <ShiftsTable shifts={shifts} />
       <Divider/>
       <Title level={2}>Future Guard Schedule</Title>
       <Divider/>   
