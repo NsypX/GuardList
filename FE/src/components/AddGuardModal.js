@@ -44,11 +44,16 @@ const AddGuardModal = ({ onClose }) => {
     },
   ];
 
-  const dataSource = guards.map((guard, index) => ({ key: index, name: guard }));
-
   const saveGuardsInDb = async () => {
-    await beServices.addGuards(guards);
+    try{
+       await beServices.addGuards(guards);
+      sendSuccessMessage('Success- Guards saved in DB.');
+    }catch(error){
+      sendErrorMessage('Error- Failed to save guards in DB.', error.message);
+    }
   }
+
+  const dataSource = guards.map((guard, index) => ({ key: index, name: guard }));
 
   return (
     <Modal
@@ -59,7 +64,7 @@ const AddGuardModal = ({ onClose }) => {
         <Button key="addGuard" type="primary" onClick={addGuard}>
           Add Guard
         </Button>,
-        <Button key="save" onClick={saveGuardsInDb}>
+        <Button disabled={!guards.length} key="save" onClick={saveGuardsInDb} >
           Save
         </Button>,
       ]}

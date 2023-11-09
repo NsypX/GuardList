@@ -1,10 +1,13 @@
 const express = require('express');
 const { StatusCodes } = require('http-status-codes');
+const cors = require('cors');
 
 const app = express();
+
 const bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
+app.use(cors());
 
 const rapMessage = (res, code, message, data = {}) => {
   res.status(code).send({ message, ...data });

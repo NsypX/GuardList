@@ -38,9 +38,9 @@ export class HttpService {
     this.axios.defaults.headers = {
       'Content-Type': 'application/json',
       Accept: 'application/json',
+      'Access-Control-Allow-Origin': '*',
     };
 
-    this.initializeRequestInterceptor();
     this.initializeResponseInterceptor();
   }
 
@@ -85,13 +85,6 @@ export class HttpService {
   delete(url, config) {
     return this.axios.delete(url, config);
   }
-
-  /**
-   * Initializes the request interceptor to add the authorization header to each request.
-   */
-  initializeRequestInterceptor = () => {
-    this.axios.interceptors.request.use(this.handleApiRequestInterceptor);
-  };
 
   /**
    * Initializes the response interceptor to handle responses and errors.
