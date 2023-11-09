@@ -6,17 +6,19 @@ import { beServices } from '../api-calls/BeService';
 const AddGuardModal = ({ onClose }) => {
   const [guards, setGuards] = useState([]);
   const [newGuard, setNewGuard] = useState('');
+  const [newPhoneNumber, setNewPhoneNumber] = useState('');
 
   const addGuard = () => {
-    const guardsLowerCase = guards.map((guard) => guard.toLowerCase());
+    const guardsLowerCase = guards.map((guard) => guard.name.toLowerCase());
 
     if(newGuard === ''){
       sendErrorMessage('Error- Empty guard name.', 'Please enter a guard name.');      
     }else if (guardsLowerCase.includes(newGuard.toLocaleLowerCase())) {
       sendErrorMessage('Error- Duplicate guard name.', 'Guard name already exists.');      
     }else {
-      setGuards([...guards, newGuard]);
+      setGuards([...guards, { name:newGuard, phoneNumber:newPhoneNumber, index:guards.length }]);
       setNewGuard('');
+      setNewPhoneNumber('');
       sendSuccessMessage('Success- Guard added to the list.');      
     }
   };
@@ -26,12 +28,28 @@ const AddGuardModal = ({ onClose }) => {
     updatedGuards.splice(index, 1);
     setGuards(updatedGuards);
   };
+  
+  const saveGuardsInDb = async () => {
+    try{
+      const guardsToSend = guards.map((guard) => ({ name:guard.name, phoneNumber:guard.phoneNumber }));
+       await beServices.addGuards(guardsToSend);
+      sendSuccessMessage('Success- Guards saved in DB.');
+    }catch(error){
+      sendErrorMessage('Error- Failed to save guards in DB.', error.message);
+    }
+    onClose();
+  }
 
   const columns = [
     {
-      title: 'Guard Name',
+      title: 'Name',
       dataIndex: 'name',
       key: 'name',
+    },
+    {
+      title: 'Phone Number',
+      dataIndex: 'phoneNumber',
+      key: 'phoneNumber',
     },
     {
       title: 'Actions',
@@ -43,17 +61,6 @@ const AddGuardModal = ({ onClose }) => {
       ),
     },
   ];
-
-  const saveGuardsInDb = async () => {
-    try{
-       await beServices.addGuards(guards);
-      sendSuccessMessage('Success- Guards saved in DB.');
-    }catch(error){
-      sendErrorMessage('Error- Failed to save guards in DB.', error.message);
-    }
-  }
-
-  const dataSource = guards.map((guard, index) => ({ key: index, name: guard }));
 
   return (
     <Modal
@@ -74,10 +81,15 @@ const AddGuardModal = ({ onClose }) => {
         onChange={(e) => setNewGuard(e.target.value)}
         placeholder="Enter guard name"
       />
-      {dataSource.length ? (
+      <Input
+        value={newPhoneNumber}
+        onChange={(e) => setNewPhoneNumber(e.target.value)}
+        placeholder="Enter guard phone number"
+        ></Input>
+      {guards.length ? (
       <>
         <Divider />
-        <Table dataSource={dataSource} columns={columns} />
+        <Table dataSource={guards} columns={columns} />
       </>
       ) : (<></>)}
       
