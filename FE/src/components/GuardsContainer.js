@@ -16,7 +16,8 @@ const GuardsContainer = () => {
 
   useEffect(() => {
     beServices.getGuards().then((response) => {
-      const guards = response.data;      
+      const { guards } = response;
+      console.log('response', response);
       setGuards(guards);
     })
     .catch(error => sendErrorMessage('Error- Failed to get guards from DB.', error.message));

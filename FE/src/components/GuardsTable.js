@@ -31,7 +31,7 @@ const GuardTable = ({ removeGuard, guards }) => {
   return (
     <>
         <Divider />
-        <Table dataSource={guards} columns={columns} />
+        <Table dataSource={guards} columns={columns} scroll={{ y: 200 }} />
     </>       
   );
 };

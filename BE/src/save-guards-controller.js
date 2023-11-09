@@ -9,6 +9,8 @@ const controller = async (event) => {
   const guardsWithId = guards.map((guard) => ({ _id: new ObjectId().toHexString(), createdAt: new Date(), ...guard }));
 
   await db.collection('guards').insertMany(guardsWithId);
+
+  return { message: 'Guards saved successfully.' };
 };
 
 module.exports = { saveGuardsController: controller, controller: middleware(controller) } ;

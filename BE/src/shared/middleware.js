@@ -10,7 +10,7 @@ const middleware = (func) => {
     try{
 
       console.log('Received message, starting process',{ req });
-      const data = func(req);
+      const data = await func(req);
       rapMessage(res, StatusCodes.OK, data);    
     }catch(err){
       rapMessage(res, StatusCodes.OK, { message: err.message });    
