@@ -4,6 +4,11 @@ import { Button, Table, Divider } from 'antd';
 const ShiftsTable = ({ removeShift, shifts }) => {
   const columns = [
     {
+      title: 'Shift Station',
+      dataIndex: 'shiftStation',
+      key: 'shiftStation',
+    },
+    {
       title: 'Shift Hours',
       dataIndex: 'shiftHours',
       key: 'shiftHours',

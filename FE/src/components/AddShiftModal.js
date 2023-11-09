@@ -13,14 +13,19 @@ const AddShiftModal = ({ onClose }) => {
   const addShift = () => {
     const isValid = validateShiftInput();
     if (isValid) {      
-      setShifts([...shifts, { shiftHours: parseInt(newShiftHours), shiftPower: parseInt(newShiftPower), key: shifts.length }]);
+      setShifts([...shifts, { shiftStation, shiftHours: parseInt(newShiftHours), shiftPower: parseInt(newShiftPower), key: shifts.length }]);
       setNewShiftHours('');
       setNewShiftPower('');
+      setShiftStation('');
       sendSuccessMessage('Success- Shift added to the list.');      
     }
   };
 
   const validateShiftInput = () => {
+    if (shiftStation === '') {
+      sendErrorMessage('Error- Empty shift station.', 'Please enter a shift station.');
+      return false;
+    }
     if (newShiftHours === '' || newShiftPower === '') {
       sendErrorMessage('Error- Empty fields.', 'Please enter shift hours and shift power.');
       return false;
@@ -49,7 +54,7 @@ const AddShiftModal = ({ onClose }) => {
 
   const saveShiftToDb = async () => {
     try{
-      const shiftsToSave = shifts.map(({ shiftHours,shiftPower }) => ({ shiftHours, shiftPower }));
+      const shiftsToSave = shifts.map(({ shiftHours, shiftPower, shiftStation }) => ({ shiftHours, shiftPower, shiftStation }));
        await beServices.addShifts(shiftsToSave);
       sendSuccessMessage('Success- Shifts saved in DB.');
     }catch(error){

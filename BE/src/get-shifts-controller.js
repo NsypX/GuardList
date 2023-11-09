@@ -10,9 +10,9 @@ const controller = async (event) => {
 
   const shifts = await db.collection('shifts').find({ 
     ...(isActive ? { isActive: true } : {}) 
-  }).sort({ createdAt:-1 }).project({ _id:0, key: '$_id', shiftHours:1, shiftPower:1 }).toArray();
+  }).sort({ createdAt:-1 }).project({ _id:0, key: '$_id', shiftHours:1, shiftPower:1, shiftStation:1 }).toArray();
 
   return { shifts };
 };
 
-module.exports = { getShifts: controller, controller: middleware(controller) } ;
+module.exports = { getShifts: controller, controller: middleware(controller) };

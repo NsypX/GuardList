@@ -13,15 +13,18 @@ const AddGuardModal = ({ onClose }) => {
     const guardsLowerCase = guards.map((guard) => guard.name.toLowerCase());
 
     if(newGuard === ''){
-      sendErrorMessage('Error- Empty guard name.', 'Please enter a guard name.');      
+      return sendErrorMessage('Error- Empty guard name.', 'Please enter a guard name.');            
     }else if (guardsLowerCase.includes(newGuard.toLocaleLowerCase())) {
-      sendErrorMessage('Error- Duplicate guard name.', 'Guard name already exists.');      
+      return sendErrorMessage('Error- Duplicate guard name.', 'Guard name already exists.');      
     }else {
-      setGuards([...guards, { name: newGuard, phoneNumber: newPhoneNumber, key: guards.length }]);
-      setNewGuard('');
-      setNewPhoneNumber('');
-      sendSuccessMessage('Success- Guard added to the list.');      
+      
     }
+
+    setGuards([...guards, { name: newGuard, phoneNumber: newPhoneNumber, key: guards.length }]);
+    setNewGuard('');
+    setNewPhoneNumber('');
+    
+    return sendSuccessMessage('Success- Guard added to the list.');      
   };
 
   const removeGuard = (index) => {
