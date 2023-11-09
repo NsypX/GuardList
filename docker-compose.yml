@@ -16,6 +16,8 @@ services:
       - "3000:3000"
     depends_on:
       - mongodb
+    environment:
+      - BE_URL=http://localhost:3002
 
   # Express app container
   be:
