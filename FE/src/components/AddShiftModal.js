@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Modal, Input, Button, Table, Divider } from 'antd';
+import { Modal, Input, Button } from 'antd';
 import { sendSuccessMessage, sendErrorMessage } from './helpers/notifications';
+import { beServices } from '../api-calls/BeService';
+import ShiftsTable from './ShiftsTable'
 
 const AddShiftModal = ({ onClose }) => {
   const [shifts, setShifts] = useState([]);
@@ -45,46 +47,27 @@ const AddShiftModal = ({ onClose }) => {
     setShifts(updatedShifts);
   };
 
-  const columns = [
-    {
-      title: 'Shift Hours',
-      dataIndex: 'shiftHours',
-      key: 'shiftHours',
-    },
-    {
-      title: 'Shift Power',
-      dataIndex: 'shiftPower',
-      key: 'shiftPower',
-    },
-    {
-      title: 'Actions',
-      key: 'actions',
-      render: (text, record, index) => (
-        <Button type="danger" onClick={() => removeShift(index)}>
-          Remove
-        </Button>
-      ),
-    },
-  ];
-
-  const dataSource = shifts.map((shift, index) => ({ key: index, shiftHours: shift.shiftHours, shiftPower: shift.shiftPower }));
-
-  const saveToFile = () => {
-    const data = JSON.stringify(shifts);
-    const blob = new Blob([data], { type: 'application/json' });
-    // saveAs(blob, 'shifts.json');
-  };
+  const saveShiftToDb = async () => {
+    try{
+      const shiftsToSave = shifts.map(({ shiftHours,shiftPower }) => ({ shiftHours, shiftPower }));
+       await beServices.addGuards(shiftsToSave);
+      sendSuccessMessage('Success- Shifts saved in DB.');
+    }catch(error){
+      sendErrorMessage('Error- Failed to save Shifts in DB.', error.message);
+    }
+    onClose();
+  }
 
   return (
     <Modal
       title="Shift List"
-      visible
+      open
       onCancel={onClose}
       footer={[
         <Button key="addShift" type="primary" onClick={addShift}>
           Add Shift
         </Button>,
-        <Button key="save" onClick={saveToFile}>
+        <Button key="save" onClick={saveShiftToDb}>
           Save
         </Button>,
       ]}
@@ -105,12 +88,7 @@ const AddShiftModal = ({ onClose }) => {
         min={0}
         max={100}
       />
-      {dataSource.length ? (
-        <>
-          <Divider />
-          <Table dataSource={dataSource} columns={columns} />
-        </>
-      ) : null}
+     <ShiftsTable removeShift={removeShift} shifts={shifts} />      
     </Modal>
   );
 };

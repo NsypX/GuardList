@@ -14,8 +14,7 @@ const GuardTable = ({ removeGuard, guards }) => {
       key: 'phoneNumber',
     },
   ];
-
-  console.log({ guards,removeGuard:!!removeGuard })
+  
   if(guards.length) {
     if(guards[0].guardScore) {
       columns.push({

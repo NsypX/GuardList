@@ -4,6 +4,7 @@ const cors = require('cors');
 
 const { controller: saveGuardsController } = require('./src/save-guards-controller');
 const { controller: getGuardsController } = require('./src/get-guards-controller');
+const { controller: saveShiftController } = require('./src/save-shift-controller');
 
 const app = express();
 app.use(bodyParser.json());
@@ -15,6 +16,10 @@ app.get('/guards', (req, res) => {
 
 app.post('/guards', (req, res) => {  
   saveGuardsController(req, res);  
+});
+
+app.post('/shifts', (req, res) => {  
+  saveShiftController(req, res);  
 });
 
 const PORT = process.env.EXPORT_PORT || 3002;
