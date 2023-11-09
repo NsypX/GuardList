@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Input, Button, Table, Divider } from 'antd';
 import { sendSuccessMessage, sendErrorMessage } from './helpers/notifications';
-import { saveAs } from 'file-saver';
 
 const AddShiftModal = ({ onClose }) => {
   const [shifts, setShifts] = useState([]);
@@ -73,7 +72,7 @@ const AddShiftModal = ({ onClose }) => {
   const saveToFile = () => {
     const data = JSON.stringify(shifts);
     const blob = new Blob([data], { type: 'application/json' });
-    saveAs(blob, 'shifts.json');
+    // saveAs(blob, 'shifts.json');
   };
 
   return (
