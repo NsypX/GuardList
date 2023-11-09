@@ -17,7 +17,7 @@ const AddGuardModal = ({ onClose }) => {
     }else if (guardsLowerCase.includes(newGuard.toLocaleLowerCase())) {
       sendErrorMessage('Error- Duplicate guard name.', 'Guard name already exists.');      
     }else {
-      setGuards([...guards, { name:newGuard, phoneNumber:newPhoneNumber, index:guards.length }]);
+      setGuards([...guards, { name: newGuard, phoneNumber: newPhoneNumber, key: guards.length }]);
       setNewGuard('');
       setNewPhoneNumber('');
       sendSuccessMessage('Success- Guard added to the list.');      

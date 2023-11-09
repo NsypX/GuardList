@@ -5,6 +5,8 @@ const { middleware } = require('./shared/middleware');
 const controller = async (event) => {
   const { shifts = [] } = event.body;
   const db = await getDbConnection();
+
+  await db.collection('shifts').updateMany({ isActive: true }, { $set: { isActive: false } });
   
   const guardsWithId = shifts.map((shift) => ({ _id: new ObjectId().toHexString(), createdAt: new Date(), isActive: true, ...shift }));
 

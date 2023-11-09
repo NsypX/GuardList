@@ -8,12 +8,12 @@ const AddShiftModal = ({ onClose }) => {
   const [shifts, setShifts] = useState([]);
   const [newShiftHours, setNewShiftHours] = useState('');
   const [newShiftPower, setNewShiftPower] = useState('');
+  const [shiftStation, setShiftStation] = useState('');
 
   const addShift = () => {
     const isValid = validateShiftInput();
-    if (isValid) {
-      const newShift = { shiftHours: parseInt(newShiftHours), shiftPower: parseInt(newShiftPower) };
-      setShifts([...shifts, newShift]);
+    if (isValid) {      
+      setShifts([...shifts, { shiftHours: parseInt(newShiftHours), shiftPower: parseInt(newShiftPower), key: shifts.length }]);
       setNewShiftHours('');
       setNewShiftPower('');
       sendSuccessMessage('Success- Shift added to the list.');      
@@ -72,6 +72,11 @@ const AddShiftModal = ({ onClose }) => {
         </Button>,
       ]}
     >
+      <Input
+        value={shiftStation}
+        onChange={(e) => setShiftStation(e.target.value)}
+        placeholder="Enter shifts station"
+      />
       <Input
         value={newShiftHours}
         onChange={(e) => setNewShiftHours(e.target.value)}

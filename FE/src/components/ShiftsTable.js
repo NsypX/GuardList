@@ -15,8 +15,6 @@ const ShiftsTable = ({ removeShift, shifts }) => {
     },    
   ];
 
-  const dataSource = shifts.map((shift, index) => ({ key: index, shiftHours: shift.shiftHours, shiftPower: shift.shiftPower }));
-
   if(removeShift){
     columns.push({
       title: 'Actions',
@@ -28,11 +26,11 @@ const ShiftsTable = ({ removeShift, shifts }) => {
       ),
     });  
   }
-
+  
   return (
     <>
         <Divider />
-        <Table dataSource={dataSource} columns={columns} scroll={{ y: 200 }} />
+        <Table dataSource={shifts} columns={columns} scroll={{ y: 150 }} />
     </>       
   );
 };

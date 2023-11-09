@@ -37,12 +37,14 @@ const GuardTable = ({ removeGuard, guards }) => {
     });
   
   }
+
   return (
     <>
         <Divider />
         <Table dataSource={guards} columns={columns} scroll={{ y: 200 }} />
     </>       
   );
+  
 };
 
 export default GuardTable;
