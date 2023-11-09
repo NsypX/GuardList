@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Table, Divider } from 'antd';
 
 const GuardTable = ({ removeGuard, guards }) => {
-
   const columns = [
     {
       title: 'Name',
@@ -15,6 +14,17 @@ const GuardTable = ({ removeGuard, guards }) => {
       key: 'phoneNumber',
     },
   ];
+
+  console.log({ guards,removeGuard:!!removeGuard })
+  if(guards.length) {
+    if(guards[0].guardScore) {
+      columns.push({
+        title: 'Guard Score',
+        dataIndex: 'guardScore',
+        key: 'guardScore',
+      });
+    }
+  }
 
   if(removeGuard){
     columns.push({

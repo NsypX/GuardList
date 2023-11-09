@@ -10,7 +10,7 @@ const controller = async (event) => {
 
   const guards = await db.collection('guards').find({ 
     ...(isActive ? { isActive: true } : {}) 
-  }).sort({ createdAt:-1 }).project({ _id:0, index:'$_id', name:1, phoneNumber:1 }).toArray();
+  }).sort({ createdAt:-1 }).project({ _id:0, index:'$_id', name:1, phoneNumber:1, guardScore: { $ifNull:['$guardScore', 1] } }).toArray();
 
   return { guards };
 };
