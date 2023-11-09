@@ -9,6 +9,11 @@ const ShiftsTable = ({ removeShift, shifts }) => {
       key: 'shiftStation',
     },
     {
+      title: 'Duration',
+      dataIndex: 'shiftText',
+      key: 'shiftText',
+    },
+    {
       title: 'Shift Hours',
       dataIndex: 'shiftHours',
       key: 'shiftHours',

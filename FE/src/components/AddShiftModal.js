@@ -10,10 +10,12 @@ const AddShiftModal = ({ onClose }) => {
   const [newShiftPower, setNewShiftPower] = useState('');
   const [shiftStation, setShiftStation] = useState('');
 
+  const numberToStringDigits = (number) => number < 10 ? `0${number}` : `${number}`;
+
   const addShift = () => {
     const isValid = validateShiftInput();
     if (isValid) {      
-      setShifts([...shifts, { shiftStation, shiftHours: parseInt(newShiftHours), shiftPower: parseInt(newShiftPower), key: shifts.length }]);
+      setShifts([...shifts, { shiftStation, shiftText:`${numberToStringDigits(10)}:00`, shiftHours: parseFloat(newShiftHours, 2), shiftPower: parseFloat(newShiftPower, 2), key: shifts.length }]);
       setNewShiftHours('');
       setNewShiftPower('');
       setShiftStation('');
@@ -54,7 +56,7 @@ const AddShiftModal = ({ onClose }) => {
 
   const saveShiftToDb = async () => {
     try{
-      const shiftsToSave = shifts.map(({ shiftHours, shiftPower, shiftStation }) => ({ shiftHours, shiftPower, shiftStation }));
+      const shiftsToSave = shifts.map(({ shiftHours, shiftPower, shiftStation, shiftText }) => ({ shiftHours, shiftPower, shiftStation, shiftText }));
        await beServices.addShifts(shiftsToSave);
       sendSuccessMessage('Success- Shifts saved in DB.');
     }catch(error){
