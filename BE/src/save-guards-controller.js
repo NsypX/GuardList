@@ -11,4 +11,4 @@ const controller = async (event) => {
   await db.collection('guards').insertMany(guardsWithId);
 };
 
-module.exports = { getGuards:controller, controller: middleware(controller) } ;
+module.exports = { saveGuardsController: controller, controller: middleware(controller) } ;

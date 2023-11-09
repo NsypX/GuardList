@@ -5,9 +5,11 @@ const rapMessage = (res, code, data = {}) => {
   res.status(code).send({ ...data });
 };
 
-const middleware = (func) => {
+const middleware = (func) => {  
   return async (req, res) =>{
     try{
+
+      console.log('Received message, starting process',{ req });
       const data = func(req);
       rapMessage(res, StatusCodes.OK, data);    
     }catch(err){

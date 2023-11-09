@@ -1,29 +1,20 @@
 const express = require('express');
-const { StatusCodes } = require('http-status-codes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const { controller: saveGuardsController } = require('./src/save-guards-controller');
+const { controller: getGuardsController } = require('./src/get-guards-controller');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const rapMessage = (res, code, message, data = {}) => {
-  res.status(code).send({ message, ...data });
-};
-
-app.get('/api/get', (req, res) => {  
-  rapMessage(res, StatusCodes.OK, 'Hello, World! (GET)');  
+app.get('/guards', (req, res) => {  
+  getGuardsController(req, res);  
 });
 
-app.post('/guards/post', (req, res) => {  
-
+app.post('/guards', (req, res) => {  
   saveGuardsController(req, res);  
-});
-
-app.put('/api/put', (req, res) => {
-  rapMessage(res, StatusCodes.OK, 'Hello, World! (PUT)');  
 });
 
 const PORT = process.env.EXPORT_PORT || 3002;

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import AddGuardModal from './AddGuardModal';
 import AddShiftModal from './AddShiftModal';
 import GuardTable from './GuardsTable';
+import { beServices } from '../api-calls/BeService';
+import { sendErrorMessage } from './helpers/notifications';
+
 import { Button, Typography, Divider, Image } from 'antd';
 
 const { Title } = Typography;
@@ -12,7 +15,12 @@ const GuardsContainer = () => {
   const [guards, setGuards] = useState([]);
 
   useEffect(() => {
-    setGuards([]);
+    beServices.getGuards().then((response) => {
+      const guards = response.data;      
+      setGuards(guards);
+    })
+    .catch(error => sendErrorMessage('Error- Failed to get guards from DB.', error.message));
+   
   }, []);
 
   const openAddGuardModal = () => {
