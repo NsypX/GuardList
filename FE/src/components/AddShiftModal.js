@@ -14,6 +14,7 @@ const AddShiftModal = ({ onClose }) => {
 
   const addShift = () => {
     const isValid = validateShiftInput();
+    
     if (isValid) {      
       setShifts([...shifts, { shiftStation, shiftText:`${numberToStringDigits(10)}:00`, shiftHours: parseFloat(newShiftHours, 2), shiftPower: parseFloat(newShiftPower, 2), key: shifts.length }]);
       setNewShiftHours('');
