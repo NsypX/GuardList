@@ -12,16 +12,12 @@ const AddShiftModal = ({ onClose }) => {
 
   const numberToStringDigits = (number) => number < 10 ? `0${number}` : `${number}`;
 
-  const addShift = () => {
-    const isValid = validateShiftInput();
-    
-    if (isValid) {      
-      setShifts([...shifts, { shiftStation, shiftText:`${numberToStringDigits(10)}:00`, shiftHours: parseFloat(newShiftHours, 2), shiftPower: parseFloat(newShiftPower, 2), key: shifts.length }]);
-      setNewShiftHours('');
-      setNewShiftPower('');
-      setShiftStation('');
-      sendSuccessMessage('Success- Shift added to the list.');      
-    }
+  const validateNumberEarthierFullOrHalf = (number) => {
+    const convertedFloatNumber = parseFloat(number, 1);
+    const convertedIntNumber = parseInt(number);
+
+    console.log('conv', { convertedFloatNumber, convertedIntNumber })
+    return convertedIntNumber === convertedFloatNumber || convertedFloatNumber === convertedIntNumber + 0.5
   };
 
   const validateShiftInput = () => {
@@ -33,6 +29,17 @@ const AddShiftModal = ({ onClose }) => {
       sendErrorMessage('Error- Empty fields.', 'Please enter shift hours and shift power.');
       return false;
     }
+
+    if (!validateNumberEarthierFullOrHalf(newShiftHours)){
+      sendErrorMessage('Error- Invalid shift hours.', 'Shift hours must be full or half.');      
+      return false;
+    }
+
+    if(!validateNumberEarthierFullOrHalf(newShiftPower)){
+      sendErrorMessage('Error- Invalid shift power.', 'Shift power must be full or half.');      
+      return false;
+    }
+
     const hours = parseInt(newShiftHours);
     const power = parseInt(newShiftPower);
 
@@ -47,6 +54,18 @@ const AddShiftModal = ({ onClose }) => {
     }
 
     return true;
+  };
+
+  const addShift = () => {
+    const isValid = validateShiftInput();
+
+    if (isValid) {      
+      setShifts([...shifts, { shiftStation, shiftText:`${numberToStringDigits(10)}:00`, shiftHours: parseFloat(newShiftHours, 2), shiftPower: parseFloat(newShiftPower, 2), key: shifts.length }]);
+      setNewShiftHours('');
+      setNewShiftPower('');
+      setShiftStation('');
+      sendSuccessMessage('Success- Shift added to the list.');      
+    }
   };
 
   const removeShift = (index) => {
