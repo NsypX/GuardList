@@ -1,11 +1,11 @@
 const express = require('express');
 const { StatusCodes } = require('http-status-codes');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 
+const saveGuardsController = require('./src/save-guards-controller');
+
 const app = express();
-
-const bodyParser = require('body-parser');
-
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -19,6 +19,9 @@ app.get('/api/get', (req, res) => {
 
 app.post('/guards/post', (req, res) => {
   const { body } = req;
+
+  saveGuardsController(body);
+
   rapMessage(res, StatusCodes.OK, 'Hello, World! (POST)',{ ...body });  
 });
 
