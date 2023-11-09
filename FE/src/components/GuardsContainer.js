@@ -15,13 +15,14 @@ const GuardsContainer = () => {
   const [guards, setGuards] = useState([]);
 
   useEffect(() => {
+    if(isAddGuardOpen) return;
     beServices.getGuards().then((response) => {
       const { guards } = response;      
       setGuards(guards);
     })
     .catch(error => sendErrorMessage('Error- Failed to get guards from DB.', error.message));
    
-  }, []);
+  }, [isAddGuardOpen]);
 
   const openAddGuardModal = () => {
     setIsAddGuardOpen(true);

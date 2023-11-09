@@ -11,7 +11,7 @@ const controller = async (event) => {
   const guardsWithId = guards.filter((guard)=> {
     const guardExists = dbGuards.find((dbGuard) => dbGuard.phoneNumber === guard.phoneNumber);
     return !guardExists;    
-  }).map((guard) => ({ _id: new ObjectId().toHexString(), createdAt: new Date(), ...guard }));
+  }).map((guard) => ({ _id: new ObjectId().toHexString(), createdAt: new Date(), isActive: true, ...guard }));
 
   await db.collection('guards').insertMany(guardsWithId);
 

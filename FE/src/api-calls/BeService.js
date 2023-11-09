@@ -11,8 +11,9 @@ class BeServices extends HttpService {
     return this.post('/guards', { guards });
   }
 
-  async getGuards() {
-    return this.get('/guards');
+  async getGuards(params = { test: '123' }) {
+    const searchParams = new URLSearchParams(params).toString();
+    return this.get(`/guards?${searchParams}`);
   }
 }
 
