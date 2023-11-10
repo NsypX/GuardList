@@ -4,7 +4,7 @@ import AddShiftModal from './AddShiftModal';
 import GuardTable from './GuardsTable';
 import ShiftsTable from './ShiftsTable';
 import { beServices } from '../api-calls/BeService';
-import { sendErrorMessage } from './helpers/notifications';
+import { sendErrorMessage, sendSuccessMessage } from './helpers/notifications';
 
 import { Button, Typography, Divider, Image } from 'antd';
 
@@ -52,10 +52,15 @@ const GuardsContainer = () => {
   };
 
   const unActiveShift = async (record) =>{
-    const { shiftStation = '' } = record;
-    await beServices.deactivateShifts(shiftStation);
-    const response = await beServices.getShifts();
-    setShifts(response.shifts);
+    try {
+      const { shiftStation = '' } = record;
+      await beServices.deactivateShifts(shiftStation);
+      const response = await beServices.getShifts();
+      setShifts(response.shifts);
+      sendSuccessMessage(`${shiftStation} has been deactivated successfully.`);
+    } catch(error) {
+      sendErrorMessage('Error- Failed to get guards from DB.', error.message)
+    }
   }
 
   return (
