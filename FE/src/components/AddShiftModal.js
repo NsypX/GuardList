@@ -88,6 +88,7 @@ const AddShiftModal = ({ onClose }) => {
 
   const addShift = () => {
     const isValid = validateShiftInput();
+    const distance = getShiftsHoursDistanceFrom24(shifts);
 
     if (isValid) {      
       setShifts([...shifts, { shiftStation, shiftText:`${generateShiftText(shiftStartTime, newShiftHours)}`, shiftHours: parseFloat(newShiftHours, 2), shiftPower: parseFloat(newShiftPower, 2), key: shifts.length }]);
@@ -95,7 +96,7 @@ const AddShiftModal = ({ onClose }) => {
       setNewShiftHours('');
       setNewShiftPower('');
 
-      sendSuccessMessage('Success- Shift added to the list.');      
+      sendSuccessMessage(`Success- Shift added to the list. time left to add- ${distance}`);      
     }
   };
 
