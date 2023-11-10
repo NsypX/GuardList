@@ -74,14 +74,31 @@ const AddShiftModal = ({ onClose }) => {
     setShifts(updatedShifts);
   };
 
+  const getShiftsHoursDistanceFrom24 = (shifts) => {
+    const totalShiftsTime = shifts.reduce((total, { shiftHours }) => total + shiftHours, 0);
+    if(totalShiftsTime !== 24){
+      return 24 - totalShiftsTime;
+    }
+
+    return true;
+  };
+
   const saveShiftToDb = async () => {
-    try{
+    try {
       const shiftsToSave = shifts.map(({ shiftHours, shiftPower, shiftStation, shiftText }) => ({ shiftHours, shiftPower, shiftStation, shiftText }));
-       await beServices.addShifts(shiftsToSave);
+      const distance = getShiftsHoursDistanceFrom24(shiftsToSave);
+
+      if (distance) {
+        sendErrorMessage(`Shifts total time must be 24 hours. distance- ${distance}`);
+        return;
+      }
+
+      await beServices.addShifts(shiftsToSave);
       sendSuccessMessage('Success- Shifts saved in DB.');
-    }catch(error){
+    } catch(error) {
       sendErrorMessage('Error- Failed to save Shifts in DB.', error.message);
     }
+
     onClose();
   }
 
