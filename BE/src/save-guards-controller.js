@@ -38,4 +38,4 @@ const controller = async (event) => {
   return { message: 'Guards saved successfully.' };
 };
 
-module.exports = { saveGuardsController: controller, controller: middleware(controller) } ;
+module.exports = { controller: middleware(controller) } ;

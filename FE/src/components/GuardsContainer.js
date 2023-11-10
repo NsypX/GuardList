@@ -63,12 +63,24 @@ const GuardsContainer = () => {
     }
   }
 
+  const unActiveGuard = async (record) =>{
+    try {
+      const { key, name } = record;
+      await beServices.deactivateGuards(key);
+      const response = await beServices.getGuards();
+      setGuards(response.guards);
+      sendSuccessMessage(`${name} has been deactivated successfully.`);
+    } catch(error) {
+      sendErrorMessage('Error- Failed to get guards from DB.', error.message)
+    }
+  }
+
   return (
     <>
       <Title level={1}>Guard App</Title>
       <Divider/>
       <Title level={2}>Guard List</Title>
-      <GuardTable guards={guards} />
+      <GuardTable guards={guards} unActiveGuard={unActiveGuard} />
       <Divider/>
       <Title level={2}>Current Shifts</Title>
       <ShiftsTable shifts={shifts} unActiveShift={unActiveShift} />

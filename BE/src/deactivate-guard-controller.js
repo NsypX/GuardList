@@ -2,12 +2,13 @@ const { getDbConnection } = require('./shared/getDbConnection');
 const { middleware } = require('./shared/middleware');
 
 const controller = async (event) => {
-  const { shiftStation = '' } = event.params;
+  const { guardId = '' } = event.params;
+  console.log('guardId', guardId);
   const db = await getDbConnection();
 
-  await db.collection('shifts').updateMany({ shiftStation, isActive:true },{ $set: { isActive: false } });
+  await db.collection('guards').updateMany({ _id: guardId, isActive:true },{ $set: { isActive: false } });
 
-  return { message: 'Shift deactivated successfully.' };
+  return { message: 'Guards deactivated successfully.' };
 };
 
 module.exports = { controller: middleware(controller) } ;

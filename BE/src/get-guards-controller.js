@@ -4,7 +4,7 @@ const { middleware } = require('./shared/middleware');
 const controller = async (event) => {
   const filters = event.query || {};
 
-  const { isActive = false } = filters;
+  const { isActive = true } = filters;
 
   const db = await getDbConnection();
 
@@ -15,4 +15,4 @@ const controller = async (event) => {
   return { guards };
 };
 
-module.exports = { getGuards: controller, controller: middleware(controller) } ;
+module.exports = { controller: middleware(controller) } ;
