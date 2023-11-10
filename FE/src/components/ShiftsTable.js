@@ -30,7 +30,7 @@ const ShiftsTable = ({ removeShift, unActiveShift, shifts }) => {
       title: 'Actions',
       key: 'actions',
       render: (text, record, index) => (
-        <Button type="danger" onClick={() => removeShift(index)}>
+        <Button disabled={index !== shifts.length - 1} type="danger" onClick={() => removeShift(record, index)}>
           Remove
         </Button>
       ),

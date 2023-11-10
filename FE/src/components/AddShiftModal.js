@@ -5,18 +5,47 @@ import { beServices } from '../api-calls/BeService';
 import ShiftsTable from './ShiftsTable'
 
 const AddShiftModal = ({ onClose }) => {
-  const [shifts, setShifts] = useState([]);
+  const [shifts, setShifts] = useState([]);  
   const [newShiftHours, setNewShiftHours] = useState('');
   const [newShiftPower, setNewShiftPower] = useState('');
   const [shiftStation, setShiftStation] = useState('');
+  const [shiftStartTime, setShiftStartTime] = useState('');
+
+  const validateFullNumber = (number) => {
+    const convertedFloatNumber = parseFloat(number, 1);
+    const convertedIntNumber = parseInt(number);
+
+    return convertedIntNumber === convertedFloatNumber
+  };
+
+  const validateHalfNumber = (number) => {
+    const convertedFloatNumber = parseFloat(number, 1);
+    const convertedIntNumber = parseInt(number);
+
+    return convertedFloatNumber === convertedIntNumber + 0.5
+  };
 
   const numberToStringDigits = (number) => number < 10 ? `0${number}` : `${number}`;
 
-  const validateNumberEarthierFullOrHalf = (number) => {
-    const convertedFloatNumber = parseFloat(number, 1);
-    const convertedIntNumber = parseInt(number);
-    
-    return convertedIntNumber === convertedFloatNumber || convertedFloatNumber === convertedIntNumber + 0.5
+  const timeToStringDigits = (number) => {
+    const isHalf = validateHalfNumber(number);
+
+    if (isHalf) {
+      return `${numberToStringDigits(number - 0.5)}:30`;
+    }
+
+    return `${numberToStringDigits(number)}:00`;
+  }
+
+  const getTimeDifference = (startTime, hoursToAdd) => {
+    const floatStart = parseFloat(startTime, 1);
+    const floatHoursToAdd = parseFloat(hoursToAdd, 1);
+
+    return `${timeToStringDigits(floatStart)}-${timeToStringDigits(floatStart + floatHoursToAdd)}`
+  }
+
+  const validateNumberEarthierFullOrHalf = (number) => {        
+    return validateFullNumber(number) || validateHalfNumber(number);
   };
 
   const validateShiftInput = () => {
@@ -53,13 +82,16 @@ const AddShiftModal = ({ onClose }) => {
     }
 
     return true;
-  };
+  };  
+
+  const generateShiftText = (shiftStartTimeFunc, shiftHoursFunc) => getTimeDifference(shiftStartTimeFunc, shiftHoursFunc);
 
   const addShift = () => {
     const isValid = validateShiftInput();
 
     if (isValid) {      
-      setShifts([...shifts, { shiftStation, shiftText:`${numberToStringDigits(10)}:00`, shiftHours: parseFloat(newShiftHours, 2), shiftPower: parseFloat(newShiftPower, 2), key: shifts.length }]);
+      setShifts([...shifts, { shiftStation, shiftText:`${generateShiftText(shiftStartTime, newShiftHours)}`, shiftHours: parseFloat(newShiftHours, 2), shiftPower: parseFloat(newShiftPower, 2), key: shifts.length }]);
+      setShiftStartTime(parseFloat(shiftStartTime, 2) + parseFloat(newShiftHours, 2));
       setNewShiftHours('');
       setNewShiftPower('');
 
@@ -67,9 +99,11 @@ const AddShiftModal = ({ onClose }) => {
     }
   };
 
-  const removeShift = (index) => {
+  const removeShift = (record, index) => {
+    const { shiftHours } = record;
     const updatedShifts = [...shifts];
     updatedShifts.splice(index, 1);
+    setShiftStartTime(parseFloat(shiftStartTime, 2) - parseFloat(shiftHours, 2));
     setShifts(updatedShifts);
   };
 
@@ -79,7 +113,7 @@ const AddShiftModal = ({ onClose }) => {
       return 24 - totalShiftsTime;
     }
 
-    return true;
+    return 0;
   };
 
   const saveShiftToDb = async () => {
@@ -87,7 +121,7 @@ const AddShiftModal = ({ onClose }) => {
       const shiftsToSave = shifts.map(({ shiftHours, shiftPower, shiftStation, shiftText }) => ({ shiftHours, shiftPower, shiftStation, shiftText }));
       const distance = getShiftsHoursDistanceFrom24(shiftsToSave);
 
-      if (distance) {
+      if (distance > 0) {
         sendErrorMessage(`Shifts total time must be 24 hours. distance- ${distance}`);
         return;
       }
@@ -128,6 +162,15 @@ const AddShiftModal = ({ onClose }) => {
         disabled={(shifts.length)}
         onChange={(e) => setShiftStation(e.target.value)}
         placeholder="Enter shifts station"
+      />
+       <Input
+        value={shiftStartTime}
+        disabled={(shifts.length)}
+        onChange={(e) => setShiftStartTime(e.target.value)}
+        placeholder="Enter start hour (0-24)"
+        type="number"
+        min={0}
+        max={24}
       />
 
       <Divider/>
