@@ -93,6 +93,7 @@ const AddShiftModal = ({ onClose }) => {
     const isValid = validateShiftInput();
     
     if (isValid) {      
+      //. TODO ADD VALIDATION FOR TO LONG SHIFT
       const shiftsToBeAdded = [...shifts, { shiftStation, shiftText:`${generateShiftText(shiftStartTime, newShiftHours)}`, shiftHours: parseFloat(newShiftHours, 2), shiftPower: parseFloat(newShiftPower, 2), key: shifts.length }];
       const distance = getShiftsHoursDistanceFrom24(shiftsToBeAdded);  
       setShifts(shiftsToBeAdded);
