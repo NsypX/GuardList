@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Input, Button } from 'antd';
+import { Modal, Input, Button, Divider } from 'antd';
 import { sendSuccessMessage, sendErrorMessage } from './helpers/notifications';
 import { beServices } from '../api-calls/BeService';
 import ShiftsTable from './ShiftsTable'
@@ -15,8 +15,7 @@ const AddShiftModal = ({ onClose }) => {
   const validateNumberEarthierFullOrHalf = (number) => {
     const convertedFloatNumber = parseFloat(number, 1);
     const convertedIntNumber = parseInt(number);
-
-    console.log('conv', { convertedFloatNumber, convertedIntNumber })
+    
     return convertedIntNumber === convertedFloatNumber || convertedFloatNumber === convertedIntNumber + 0.5
   };
 
@@ -63,7 +62,7 @@ const AddShiftModal = ({ onClose }) => {
       setShifts([...shifts, { shiftStation, shiftText:`${numberToStringDigits(10)}:00`, shiftHours: parseFloat(newShiftHours, 2), shiftPower: parseFloat(newShiftPower, 2), key: shifts.length }]);
       setNewShiftHours('');
       setNewShiftPower('');
-      setShiftStation('');
+
       sendSuccessMessage('Success- Shift added to the list.');      
     }
   };
@@ -102,11 +101,19 @@ const AddShiftModal = ({ onClose }) => {
     onClose();
   }
 
+  const handleCloseModal = () => {
+    setNewShiftHours('');
+    setNewShiftPower('');
+    setShiftStation('');
+    setShifts([]);
+    onClose()
+  }
+
   return (
     <Modal
       title="Shift List"
       open
-      onCancel={onClose}
+      onCancel={handleCloseModal}
       footer={[
         <Button key="addShift" type="primary" onClick={addShift}>
           Add Shift
@@ -118,9 +125,13 @@ const AddShiftModal = ({ onClose }) => {
     >
       <Input
         value={shiftStation}
+        disabled={(shifts.length)}
         onChange={(e) => setShiftStation(e.target.value)}
         placeholder="Enter shifts station"
       />
+
+      <Divider/>
+
       <Input
         value={newShiftHours}
         onChange={(e) => setNewShiftHours(e.target.value)}
