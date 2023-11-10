@@ -30,11 +30,14 @@ const AddShiftModal = ({ onClose }) => {
   const timeToStringDigits = (number) => {
     const isHalf = validateHalfNumber(number);
 
+    const hour = number < 24 ? number : number - 24;
+    const prefix = hour < 12 ? 'AM' : 'PM';
+
     if (isHalf) {
-      return `${numberToStringDigits(number - 0.5)}:30`;
+      return `${numberToStringDigits(hour - 0.5)}:30${prefix}`;
     }
 
-    return `${numberToStringDigits(number)}:00`;
+    return `${numberToStringDigits(hour)}:00${prefix}`;
   }
 
   const getTimeDifference = (startTime, hoursToAdd) => {
@@ -86,12 +89,13 @@ const AddShiftModal = ({ onClose }) => {
 
   const generateShiftText = (shiftStartTimeFunc, shiftHoursFunc) => getTimeDifference(shiftStartTimeFunc, shiftHoursFunc);
 
-  const addShift = () => {
+  const addShift = () => {    
     const isValid = validateShiftInput();
-    const distance = getShiftsHoursDistanceFrom24(shifts);
-
+    
     if (isValid) {      
-      setShifts([...shifts, { shiftStation, shiftText:`${generateShiftText(shiftStartTime, newShiftHours)}`, shiftHours: parseFloat(newShiftHours, 2), shiftPower: parseFloat(newShiftPower, 2), key: shifts.length }]);
+      const shiftsToBeAdded = [...shifts, { shiftStation, shiftText:`${generateShiftText(shiftStartTime, newShiftHours)}`, shiftHours: parseFloat(newShiftHours, 2), shiftPower: parseFloat(newShiftPower, 2), key: shifts.length }];
+      const distance = getShiftsHoursDistanceFrom24(shiftsToBeAdded);  
+      setShifts(shiftsToBeAdded);
       setShiftStartTime(parseFloat(shiftStartTime, 2) + parseFloat(newShiftHours, 2));
       setNewShiftHours('');
       setNewShiftPower('');
@@ -122,7 +126,7 @@ const AddShiftModal = ({ onClose }) => {
       const shiftsToSave = shifts.map(({ shiftHours, shiftPower, shiftStation, shiftText }) => ({ shiftHours, shiftPower, shiftStation, shiftText }));
       const distance = getShiftsHoursDistanceFrom24(shiftsToSave);
 
-      if (distance > 0) {
+      if (distance !== 0) {
         sendErrorMessage(`Shifts total time must be 24 hours. distance- ${distance}`);
         return;
       }
