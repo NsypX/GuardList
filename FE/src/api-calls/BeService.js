@@ -24,6 +24,10 @@ class BeServices extends HttpService {
     const searchParams = new URLSearchParams(params).toString();
     return this.get(`/shifts?${searchParams}`);
   }
+
+  async deactivateShifts(shiftStation) {    
+    return this.put(`/shifts/deactivate/${shiftStation}`);
+  }
 }
 
 export const beServices = new BeServices();

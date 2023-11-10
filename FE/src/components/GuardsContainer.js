@@ -51,6 +51,13 @@ const GuardsContainer = () => {
     setIsShiftsModal(false);
   };
 
+  const unActiveShift = async (record) =>{
+    const { shiftStation = '' } = record;
+    await beServices.deactivateShifts(shiftStation);
+    const response = await beServices.getShifts();
+    setShifts(response.shifts);
+  }
+
   return (
     <>
       <Title level={1}>Guard App</Title>
@@ -59,7 +66,7 @@ const GuardsContainer = () => {
       <GuardTable guards={guards} />
       <Divider/>
       <Title level={2}>Current Shifts</Title>
-      <ShiftsTable shifts={shifts} />
+      <ShiftsTable shifts={shifts} unActiveShift={unActiveShift} />
       <Divider/>
       <Title level={2}>Future Guard Schedule</Title>
       <Divider/>   

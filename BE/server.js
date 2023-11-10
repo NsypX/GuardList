@@ -6,6 +6,7 @@ const { controller: saveGuardsController } = require('./src/save-guards-controll
 const { controller: getGuardsController } = require('./src/get-guards-controller');
 const { controller: saveShiftController } = require('./src/save-shift-controller');
 const { controller: getShiftsController } = require('./src/get-shifts-controller');
+const { controller: deactivateShiftsController } = require('./src/deactivate-shift-controller');
 
 const app = express();
 app.use(bodyParser.json());
@@ -25,6 +26,9 @@ app.get('/shifts', (req, res) => {
 
 app.post('/shifts', (req, res) => {  
   saveShiftController(req, res);  
+});
+app.put('/shifts/deactivate/:shiftStation', (req, res) => {  
+  deactivateShiftsController(req, res);  
 });
 
 const PORT = process.env.EXPORT_PORT || 3002;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Table, Divider } from 'antd';
 
-const ShiftsTable = ({ removeShift, shifts }) => {
+const ShiftsTable = ({ removeShift, unActiveShift, shifts }) => {
   const columns = [
     {
       title: 'Shift Station',
@@ -32,6 +32,18 @@ const ShiftsTable = ({ removeShift, shifts }) => {
       render: (text, record, index) => (
         <Button type="danger" onClick={() => removeShift(index)}>
           Remove
+        </Button>
+      ),
+    });  
+  }
+
+  if(unActiveShift){
+    columns.push({
+      title: 'Actions',
+      key: 'actions',
+      render: (text, record) => (
+        <Button type="danger" onClick={() => unActiveShift(record)}>
+          Deactivate Shift
         </Button>
       ),
     });  
