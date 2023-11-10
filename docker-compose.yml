@@ -1,0 +1,35 @@
+version: '3'
+services:
+  # MongoDB container
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27018:27017"
+
+  # React app container
+  fe:
+    build:
+      context: ./FE
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    environment:
+      - BE_URL=http://localhost:3002
+
+  # Express app container
+  be:
+    build:
+      context: ./BE
+    ports:
+      - "3002:3002"
+    environment:
+      - DB_URI=mongodb://localhost:27018/guards-db
+      - EXPORT_PORT=3002
+    depends_on:
+      - mongodb
+
+volumes:
+  mongo-data:
