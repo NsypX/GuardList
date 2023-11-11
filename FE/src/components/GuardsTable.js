@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Table, Divider } from 'antd';
 
-const GuardTable = ({ removeGuard, guards }) => {
+const GuardTable = ({ removeGuard, unActiveGuard, guards }) => {
   const columns = [
     {
       title: 'Name',
@@ -34,8 +34,19 @@ const GuardTable = ({ removeGuard, guards }) => {
           Remove
         </Button>
       ),
-    });
-  
+    });  
+  }
+
+  if(unActiveGuard){
+    columns.push({
+      title: 'Actions',
+      key: 'actions',
+      render: (text, record) => (
+        <Button type="danger" onClick={() => unActiveGuard(record)}>
+          Deactivate Guard
+        </Button>
+      ),
+    });  
   }
 
   return (

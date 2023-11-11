@@ -7,6 +7,7 @@ class BeServices extends HttpService {
     super(`${BE_URL}`);
   }
 
+  //#region Guards
   async addGuards(guards) {
     return this.post('/guards', { guards });
   }
@@ -16,6 +17,14 @@ class BeServices extends HttpService {
     return this.get(`/guards?${searchParams}`);
   }
 
+  async deactivateGuards(guardId) {    
+    return this.put(`/guards/deactivate/${guardId}`);
+  }
+
+  //#endregion Guards
+
+  //#region Shifts
+
   async addShifts(shifts) {
     return this.post('/shifts', { shifts });
   }
@@ -24,6 +33,12 @@ class BeServices extends HttpService {
     const searchParams = new URLSearchParams(params).toString();
     return this.get(`/shifts?${searchParams}`);
   }
+
+  async deactivateShifts(shiftStation) {    
+    return this.put(`/shifts/deactivate/${shiftStation}`);
+  }
+  
+  //#endregion Shifts
 }
 
 export const beServices = new BeServices();

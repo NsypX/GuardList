@@ -6,7 +6,11 @@ const controller = async (event) => {
   const { shifts = [] } = event.body;
   const db = await getDbConnection();
 
-  await db.collection('shifts').updateMany({ isActive: true }, { $set: { isActive: false } });
+  if (!shifts.length) throw new Error('No shifts provided.');
+
+  const shiftStations = shifts.map(({ shiftStation }) => shiftStation);
+
+  await db.collection('shifts').updateMany({ shiftStation: { $in: shiftStations }, isActive: true }, { $set: { isActive: false } });
   
   const guardsWithId = shifts.map((shift) => ({ _id: new ObjectId().toHexString(), createdAt: new Date(), isActive: true, ...shift }));
 
@@ -15,4 +19,4 @@ const controller = async (event) => {
   return { message: 'Guards saved successfully.' };
 };
 
-module.exports = { saveShiftsController: controller, controller: middleware(controller) } ;
+module.exports = { controller: middleware(controller) } ;

@@ -15,4 +15,4 @@ const controller = async (event) => {
   return { shifts };
 };
 
-module.exports = { getShifts: controller, controller: middleware(controller) };
+module.exports = { controller: middleware(controller) };
