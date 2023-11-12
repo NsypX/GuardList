@@ -15,7 +15,7 @@ services:
     ports:
       - "3002:3002"
     environment:
-      - DB_URI=mongodb://mongodb:27018/guards-db
+      - DB_URI=mongodb://mongodb:27017/guards-db
       - EXPORT_PORT=3002
     depends_on:
       - mongodb
