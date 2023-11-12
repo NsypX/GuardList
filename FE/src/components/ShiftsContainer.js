@@ -10,16 +10,16 @@ const { Title } = Typography;
 
 const ShiftsContainer = () => {  
   const [isShiftsModal, setIsShiftsModal] = useState(false);  
-  const [shifts, setShifts] = useState([]);
+  const [shiftsGroups, setShiftsGroups] = useState([]);
 
   useEffect(() => {
     if(isShiftsModal) return;  
 
     if(!isShiftsModal) {
       beServices.getShifts().then((response) => {        
-        setShifts(response.shifts);
+        setShiftsGroups(response.shiftsGroups || []);
       })
-      .catch(error => sendErrorMessage('Error- Failed to get shifts from DB.', error.message));
+      .catch(error => sendErrorMessage('Error- Failed to get shift groups from DB.', error.message));
     }
    
   }, [isShiftsModal]);
@@ -37,7 +37,7 @@ const ShiftsContainer = () => {
       const { shiftStation = '' } = record;
       await beServices.deactivateShifts(shiftStation);
       const response = await beServices.getShifts();
-      setShifts(response.shifts);
+      setShiftsGroups(response.shifts);
       sendSuccessMessage(`${shiftStation} has been deactivated successfully.`);
     } catch(error) {
       sendErrorMessage('Error- Failed to get guards from DB.', error.message)
@@ -45,6 +45,8 @@ const ShiftsContainer = () => {
   }
 
   return (
+    <>
+    {shiftsGroups.length ? shiftsGroups.map(({ shifts }) => (  
     <>      
       <Title level={2}>Current Shifts</Title>
       <ShiftsTable shifts={shifts} unActiveShift={unActiveShift} />
@@ -53,6 +55,8 @@ const ShiftsContainer = () => {
       </Button>
 
       {isShiftsModal && (<AddShiftModal onClose={closeAddShiftsModal} />)}         
+    </>
+    )) : (<></>)},
     </>
   );
 };

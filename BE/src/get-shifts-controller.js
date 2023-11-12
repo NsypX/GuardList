@@ -8,11 +8,11 @@ const controller = async (event) => {
 
   const db = await getDbConnection();
 
-  const shifts = await db.collection('shifts').find({ 
+  const shiftsGroups = await db.collection('shifts').find({ 
     ...(isActive ? { isActive: true } : {}) 
   }).sort({ createdAt:-1 }).toArray();
 
-  return { shifts };
+  return { shiftsGroups };
 };
 
 module.exports = { controller: middleware(controller) };
