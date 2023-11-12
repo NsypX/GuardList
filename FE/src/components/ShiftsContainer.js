@@ -33,8 +33,7 @@ const ShiftsContainer = () => {
   };
 
   const unActiveShift = async (shiftGroupId) =>{
-    try {
-      console.log('unactivate',shiftGroupId);
+    try {      
       await beServices.deactivateShifts(shiftGroupId);
       const response = await beServices.getShifts();
       setShiftsGroups(response.shiftsGroups);
@@ -46,15 +45,13 @@ const ShiftsContainer = () => {
 
   return (
     <>
-    {shiftsGroups.length ? shiftsGroups.map(({ _id, shiftStation, shiftStartTime, shifts }) => (  
-    <>      
-      
-      <Title level={3}>{`${shiftStation} start in ${shiftStartTime}`}</Title>
-      <Button type="danger" key={_id} onClick={()=> unActiveShift(_id)}>
+    {shiftsGroups.length ? shiftsGroups.map(({ _id, key, shiftStation, shiftStartTime, shifts }) => (  
+    <>            
+      <Title key={`${key}-title`} level={3}>{`${shiftStation} start in ${shiftStartTime}`}</Title>
+      <Button key={`${key}-button`} type="danger" onClick={()=> unActiveShift(_id)}>
         Deactivate Group
       </Button>
-      <ShiftsTable shifts={shifts}/>
-           
+      <ShiftsTable key={`${key}-table`} shifts={shifts}/>           
     </>
     )) : (<></>)},
 
