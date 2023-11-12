@@ -132,7 +132,7 @@ const AddShiftModal = ({ onClose }) => {
 
   const saveShiftToDb = async () => {
     try {
-      const shiftsToSave = shifts.map(({ shiftHours, shiftPower, shiftStation, shiftText }) => ({ shiftHours, shiftPower, shiftStation, shiftText }));
+      const shiftsToSave = shifts.map(({ key, ...rest }) => rest);
       const distance = getShiftsHoursDistanceFrom24(shiftsToSave);
 
       if (distance !== 0) {
@@ -140,7 +140,7 @@ const AddShiftModal = ({ onClose }) => {
         return;
       }
 
-      await beServices.addShifts(shiftsToSave);
+      await beServices.addShifts([{ shiftStartTime, shiftStation, shifts: shiftsToSave }]);
       sendSuccessMessage('Success- Shifts saved in DB.');
     } catch(error) {
       sendErrorMessage('Error- Failed to save Shifts in DB.', error.message);

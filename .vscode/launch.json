@@ -11,7 +11,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/BE/server.js",
+            "program": "${workspaceFolder}/BE/server.js",            
             "env": {
                 "NODE_ENV": "dev",
                 "PORT": "3002",
