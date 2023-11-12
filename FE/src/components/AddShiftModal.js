@@ -51,7 +51,8 @@ const AddShiftModal = ({ onClose }) => {
     return validateFullNumber(number) || validateHalfNumber(number);
   };
 
-  const validateShiftInput = () => {
+  const validateShiftInput = (shiftToAdd = {}) => {
+    const newShiftsArray = [...shifts, shiftToAdd]
     if (shiftStation === '') {
       sendErrorMessage('Error- Empty shift station.', 'Please enter a shift station.');
       return false;
@@ -84,19 +85,26 @@ const AddShiftModal = ({ onClose }) => {
       return false;
     }
 
-    return true;
+    const distance = getShiftsHoursDistanceFrom24(newShiftsArray);
+
+    if (distance < 0) {
+      sendErrorMessage(`Shifts total time must be 24 hours. distance- ${distance}`);
+      return false;
+    }
+
+    return newShiftsArray;
   };  
 
   const generateShiftText = (shiftStartTimeFunc, shiftHoursFunc) => getTimeDifference(shiftStartTimeFunc, shiftHoursFunc);
 
   const addShift = () => {    
-    const isValid = validateShiftInput();
+    const shiftToAdd = { shiftText:`${generateShiftText(shiftStartTime, newShiftHours)}`, shiftHours: parseFloat(newShiftHours, 2), shiftPower: parseFloat(newShiftPower, 2), key: shifts.length }
+    const newShiftsArray = validateShiftInput(shiftToAdd);
     
-    if (isValid) {      
-      //. TODO ADD VALIDATION FOR TO LONG SHIFT
-      const shiftsToBeAdded = [...shifts, { shiftStation, shiftText:`${generateShiftText(shiftStartTime, newShiftHours)}`, shiftHours: parseFloat(newShiftHours, 2), shiftPower: parseFloat(newShiftPower, 2), key: shifts.length }];
-      const distance = getShiftsHoursDistanceFrom24(shiftsToBeAdded);  
-      setShifts(shiftsToBeAdded);
+    if (newShiftsArray) {      
+      //. TODO ADD VALIDATION FOR TO LONG SHIFT      
+      const distance = getShiftsHoursDistanceFrom24(newShiftsArray);  
+      setShifts(newShiftsArray);
       setShiftStartTime(parseFloat(shiftStartTime, 2) + parseFloat(newShiftHours, 2));
       setNewShiftHours('');
       setNewShiftPower('');
