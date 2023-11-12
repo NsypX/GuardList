@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography, Divider, Image, Tabs } from 'antd';
 import GuardsContainer from './GuardsContainer';
 import ShiftsContainer from './ShiftsContainer';
+import ScheduleContainer from './ScheduleContainer';
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -21,7 +22,7 @@ const MainContainer = () => {
         </TabPane>
 
         <TabPane tab="Future Guard Schedule" key="3">
-          <Title level={2}>Future Guard Schedule</Title>      
+          <ScheduleContainer />
         </TabPane>
       </Tabs>
 

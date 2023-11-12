@@ -39,6 +39,20 @@ class BeServices extends HttpService {
   }
   
   //#endregion Shifts
+
+  //#region Schedule
+
+  async generateWeekSchedule() {
+    return this.post('/schedule');
+  }
+
+  async getSchedule(params = { }) {
+    const searchParams = new URLSearchParams(params).toString();
+    
+    return this.get(`/schedule?${searchParams}`);
+  }
+  
+  //#endregion Schedule
 }
 
 export const beServices = new BeServices();
