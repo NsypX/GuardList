@@ -48,16 +48,18 @@ const ShiftsContainer = () => {
     <>
     {shiftsGroups.length ? shiftsGroups.map(({ shiftStation, shiftStartTime, shifts }) => (  
     <>      
-      <Title level={2}>{`${shiftStation} start at ${shiftStartTime}`}</Title>
-      <Title level={3}>{`start at ${shiftStartTime}`}</Title>
+      <Title level={2}>{`${shiftStation}`}</Title>
+      <Title level={3}>{`${shiftStartTime}מתחיל ב`}</Title>
       <ShiftsTable shifts={shifts} unActiveShift={unActiveShift} />
+           
+    </>
+    )) : (<></>)},
+
       <Button type="primary" onClick={openAddShiftsModal}>
         Add Shifts
       </Button>
 
-      {isShiftsModal && (<AddShiftModal onClose={closeAddShiftsModal} />)}         
-    </>
-    )) : (<></>)},
+      {isShiftsModal && (<AddShiftModal onClose={closeAddShiftsModal} />)}   
     </>
   );
 };
