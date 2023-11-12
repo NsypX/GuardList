@@ -2,12 +2,7 @@ import React from 'react';
 import { Button, Table, Divider } from 'antd';
 
 const ShiftsTable = ({ removeShift, unActiveShift, shifts }) => {
-  const columns = [
-    {
-      title: 'Shift Station',
-      dataIndex: 'shiftStation',
-      key: 'shiftStation',
-    },
+  const columns = [   
     {
       title: 'Duration',
       dataIndex: 'shiftText',
