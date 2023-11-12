@@ -10,7 +10,7 @@ const controller = async (event) => {
 
   const shiftsGroups = await db.collection('shifts').find({ 
     ...(isActive ? { isActive: true } : {}) 
-  }).sort({ createdAt:-1 }).toArray();
+  }).sort({ createdAt: -1 }).toArray();
 
   return { shiftsGroups };
 };

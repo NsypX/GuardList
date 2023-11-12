@@ -32,13 +32,13 @@ const ShiftsContainer = () => {
     setIsShiftsModal(false);
   };
 
-  const unActiveShift = async (record) =>{
+  const unActiveShift = async (shiftGroupId) =>{
     try {
-      const { shiftStation = '' } = record;
-      await beServices.deactivateShifts(shiftStation);
+      console.log('unactivate',shiftGroupId);
+      await beServices.deactivateShifts(shiftGroupId);
       const response = await beServices.getShifts();
-      setShiftsGroups(response.shifts);
-      sendSuccessMessage(`${shiftStation} has been deactivated successfully.`);
+      setShiftsGroups(response.shiftsGroups);
+      sendSuccessMessage(`${shiftGroupId} has been deactivated successfully.`);
     } catch(error) {
       sendErrorMessage('Error- Failed to get guards from DB.', error.message)
     }
@@ -46,11 +46,14 @@ const ShiftsContainer = () => {
 
   return (
     <>
-    {shiftsGroups.length ? shiftsGroups.map(({ shiftStation, shiftStartTime, shifts }) => (  
+    {shiftsGroups.length ? shiftsGroups.map(({ _id, shiftStation, shiftStartTime, shifts }) => (  
     <>      
-      <Title level={2}>{`${shiftStation}`}</Title>
-      <Title level={3}>{`${shiftStartTime}מתחיל ב`}</Title>
-      <ShiftsTable shifts={shifts} unActiveShift={unActiveShift} />
+      
+      <Title level={3}>{`${shiftStation} start in ${shiftStartTime}`}</Title>
+      <Button type="danger" key={_id} onClick={()=> unActiveShift(_id)}>
+        Deactivate Group
+      </Button>
+      <ShiftsTable shifts={shifts}/>
            
     </>
     )) : (<></>)},

@@ -34,8 +34,8 @@ class BeServices extends HttpService {
     return this.get(`/shifts?${searchParams}`);
   }
 
-  async deactivateShifts(shiftStation) {    
-    return this.put(`/shifts/deactivate/${shiftStation}`);
+  async deactivateShifts(shiftGroupId) {    
+    return this.put(`/shifts/deactivate/${shiftGroupId}`);
   }
   
   //#endregion Shifts

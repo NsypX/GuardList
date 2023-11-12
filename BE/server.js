@@ -39,7 +39,7 @@ app.post('/shifts', (req, res) => {
   saveShiftController(req, res);  
 });
 
-app.put('/shifts/deactivate/:shiftStation', (req, res) => {  
+app.put('/shifts/deactivate/:shiftGroupId', (req, res) => {  
   deactivateShiftsController(req, res);  
 });
 
