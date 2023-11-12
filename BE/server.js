@@ -8,6 +8,8 @@ const { controller: saveShiftController } = require('./src/save-shift-controller
 const { controller: getShiftsController } = require('./src/get-shifts-controller');
 const { controller: deactivateShiftsController } = require('./src/deactivate-shift-controller');
 const { controller: deactivateGuardsController } = require('./src/deactivate-guard-controller');
+const { controller: generateWeekScheduleController } = require('./src/generate-week-schedule-controller');
+const { controller: getScheduleController } = require('./src/get-schedule-controller');
 
 const app = express();
 app.use(bodyParser.json());
@@ -44,6 +46,16 @@ app.put('/shifts/deactivate/:shiftGroupId', (req, res) => {
 });
 
 //#endregion Shifts
+
+//#region Schedule
+
+app.get('/schedule', (req, res) => {
+  getScheduleController(req, res);
+});
+
+app.post('/schedule', (req, res) => {
+  generateWeekScheduleController(req, res);
+});
 
 const PORT = process.env.EXPORT_PORT || 3002;
 
